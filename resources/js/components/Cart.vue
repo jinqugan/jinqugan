@@ -222,11 +222,10 @@ export default {
         },
         decrement(productId) {
             let quantity = this.productQty[productId] ? this.productQty[productId] : 0;
-            console.log("deduct: quantity : ");
+
             if (quantity <= 0) {
             return false;
             }
-            console.log(quantity);
 
             this.productQty[productId] = quantity - 1;
             this.form.product_id = productId;
@@ -237,8 +236,6 @@ export default {
             this.form
             .put("api/cart")
             .then(({ data }) => {
-                console.log("get product:");
-                console.log(data.data);
                 this.loadCart(data.data);
             })
             .catch((error) => {
@@ -269,18 +266,14 @@ export default {
         },
         getCarts() {
             axios.get("api/carts").then(({ data }) => {
-                console.log("get product:");
                 this.products = data.data;
                 this.loadProducts(this.products);
-                console.log(data);
             });
         },
         getProducts() {
             axios.get("api/products").then(({ data }) => {
-                console.log("get product:");
                 this.products = data.data;
                 this.loadProducts(this.products);
-                console.log(data);
             });
         },
         checkout() {
@@ -295,8 +288,6 @@ export default {
                 this.form
                 .post("api/cart/checkout")
                 .then(({ data }) => {
-                    console.log("get cart checkout :");
-                    console.log(data.data);
                     this.form.order_id = data.data.id;
 
                     $('#checkoutModal').modal('show');
@@ -315,8 +306,6 @@ export default {
             this.form
             .post("api/order/request-cancel")
             .then(({ data }) => {
-                console.log("cancel or refund checkout :");
-                console.log(data.data);
                 $("#user-cart").html("");
                 alert(data.message);
             })
@@ -353,7 +342,6 @@ export default {
             })
             .catch((error) => {
                 let response = error.response.data;
-                console.log(response);
                 alert(response.message);
 
             });
